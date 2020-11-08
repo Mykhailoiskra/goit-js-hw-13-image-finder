@@ -1,5 +1,6 @@
 import PixabayApiService from './js/apiService.js';
 import picturesTpl from './templates/picture-card.hbs';
+import LoadMoreBtn from './js/load-more.js';
 import './css/main.css';
 
 
@@ -8,8 +9,13 @@ const refs = {
     galleryContainer: document.querySelector('.gallery')
 }
 const pixabayApiService = new PixabayApiService();
+const loadMoreBtn = new LoadMoreBtn({
+  selector: '[data-action="load-more"]',
+  hidden: true,
+});
 
 refs.searchForm.addEventListener('submit', onSearch);
+loadMoreBtn.refs.button.addEventListener('click', fetchPictures);
 
 
 
@@ -23,12 +29,15 @@ function onSearch(event) {
     }
     clearGalleryContainer();
     fetchPictures();
+    loadMoreBtn.show();
 }
 
 function fetchPictures() {
+    loadMoreBtn.disable();
     pixabayApiService.fetchPictures().then(pictures => {
         appendPicturesMarkup(pictures);
     })
+    loadMoreBtn.enable();
 }
 
 function appendPicturesMarkup(pictures) {
