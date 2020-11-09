@@ -7,11 +7,11 @@ html {
   box-sizing: border-box;
 }
 
-*,
+/* *,
 *::before,
 *::after {
   box-sizing: inherit;
-}
+} */
 
 body {
   margin: 0;
@@ -21,8 +21,8 @@ body {
   color: #212121;
 }
 
-.container {
-  width: 1200px;
+.main-container {
+  width: 1400px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 15px;
@@ -30,7 +30,7 @@ body {
 }
 
 .search-form {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   margin-top: 20px;
   display: flex;
   justify-content: center;
@@ -38,8 +38,8 @@ body {
 }
 
 .search-form input {
-  width: 300px;
-  height: 50px;
+  width: 250px;
+  height: 30px;
   padding: 15px;
   border: 2px solid #2196f3;
   border-radius: 4px;
@@ -52,9 +52,9 @@ body {
 
 .btn {
   min-width: 150px;
-  height: 50px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  height: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   margin-left: 20px;
 
   background-color: #2196f3;
@@ -62,8 +62,8 @@ body {
   border-radius: 4px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   font-weight: 700;
-  font-size: 18px;
-  line-height: 1.9;
+  font-size: 14px;
+  line-height: 1.2;
   color: #fff;
   letter-spacing: 0.06em;
 
@@ -80,22 +80,22 @@ body {
 
 .gallery {
   display: flex;
-  align-items: baseline;
+  /* align-items: baseline; */
   flex-wrap: wrap;
   list-style: none;
-  margin: -10px;
+  margin: -5px;
 }
 
 .gallery__item {
-  width: calc((100% - 80px) / 4);
-  margin: 10px;
+  width: calc((100% - 40px) / 4);
+  margin: 5px;
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 
 .gallery__image {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 200px;
   display: block;
   transition: transform var(--animation-duration) var(--timing-function);
 }
@@ -117,8 +117,8 @@ body {
 .stats {
   display: flex;
   justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .stats-item {
@@ -127,15 +127,17 @@ body {
   align-items: center;
   margin-top: 0;
   margin-bottom: 0;
+  font-size: 12px;
 }
 
 .stats-item:not(:last-child) {
-  margin-right: 20px;
+  margin-right: 4px;
 }
 
 .material-icons {
-  margin-right: 4px;
   color: #2196f3;
+  font-size: 12px;
+  margin-right: 2px;
 }
 
 .button.is-hidden {

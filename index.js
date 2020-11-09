@@ -38,6 +38,11 @@ function fetchPictures() {
         appendPicturesMarkup(pictures);
     })
     loadMoreBtn.enable();
+    window.scrollTo({
+        behavior: 'smooth'
+
+    })
+    
 }
 
 function appendPicturesMarkup(pictures) {
