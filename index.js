@@ -1,6 +1,7 @@
 import PixabayApiService from './js/apiService.js';
 import picturesTpl from './templates/picture-card.hbs';
 import LoadMoreBtn from './js/load-more.js';
+import * as basicLightbox from 'basiclightbox';
 import './css/main.css';
 
 
@@ -14,10 +15,22 @@ const loadMoreBtn = new LoadMoreBtn({
   hidden: true,
 });
 
+
 refs.searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', fetchPictures);
 
+refs.galleryContainer.addEventListener('click', openModal);
 
+function openModal(event) {
+    if (event.target.nodeName !== 'IMG') {
+        return
+    };
+    console.log("click")
+    event.preventDefault();
+    basicLightbox.create(`
+		<img width="1400" height="900" src=${event.target.dataset.source}>
+	`).show();
+}
 
 function onSearch(event) {
     event.preventDefault();
@@ -38,11 +51,6 @@ function fetchPictures() {
         appendPicturesMarkup(pictures);
     })
     loadMoreBtn.enable();
-    window.scrollTo({
-        behavior: 'smooth'
-
-    })
-    
 }
 
 function appendPicturesMarkup(pictures) {
