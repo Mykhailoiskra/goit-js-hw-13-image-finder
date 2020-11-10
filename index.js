@@ -2,6 +2,8 @@ import PixabayApiService from './js/apiService.js';
 import picturesTpl from './templates/picture-card.hbs';
 import LoadMoreBtn from './js/load-more.js';
 import * as basicLightbox from 'basiclightbox';
+import { error } from '@pnotify/core';
+import '@pnotify/core/dist/BrightTheme.css';
 import './css/main.css';
 
 
@@ -21,16 +23,7 @@ loadMoreBtn.refs.button.addEventListener('click', fetchPictures);
 
 refs.galleryContainer.addEventListener('click', openModal);
 
-function openModal(event) {
-    if (event.target.nodeName !== 'IMG') {
-        return
-    };
-    console.log("click")
-    event.preventDefault();
-    basicLightbox.create(`
-		<img width="1400" height="900" src=${event.target.dataset.source}>
-	`).show();
-}
+
 
 function onSearch(event) {
     event.preventDefault();
@@ -38,7 +31,15 @@ function onSearch(event) {
     pixabayApiService.query = event.currentTarget.elements.query.value;
 
     if (pixabayApiService.query === '') {
-        return alert('Введи что-то нормальное');
+        return error({
+            title: 'Oh, no!',
+            text: 'Please enter your search query',
+            animation: 'fade',
+            hide: true,
+            delay: 2000,
+            closer: true,
+            sticker: false
+        });
     }
     clearGalleryContainer();
     fetchPictures();
@@ -48,7 +49,22 @@ function onSearch(event) {
 function fetchPictures() {
     loadMoreBtn.disable();
     pixabayApiService.fetchPictures().then(pictures => {
-        appendPicturesMarkup(pictures);
+        console.log(pictures);
+        if (pictures.length === 0) {
+            loadMoreBtn.hide();
+            return error({title: 'Oh, no!',
+            text: 'No results, please specify your query',
+            animation: 'fade',
+            hide: true,
+            delay: 2000,
+            closer: true,
+            sticker: false
+            })
+        } else {
+            appendPicturesMarkup(pictures);
+            
+        }
+        
     })
     loadMoreBtn.enable();
 }
@@ -60,4 +76,14 @@ function appendPicturesMarkup(pictures) {
 
 function clearGalleryContainer() {
     refs.galleryContainer.innerHTML = '';
+}
+function openModal(event) {
+    if (event.target.nodeName !== 'IMG') {
+        return
+    };
+    console.log("click")
+    event.preventDefault();
+    basicLightbox.create(`
+		<img width="1400" height="900" src=${event.target.dataset.source}>
+	`).show();
 }
