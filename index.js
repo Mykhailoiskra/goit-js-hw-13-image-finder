@@ -2,8 +2,9 @@ import PixabayApiService from './js/apiService.js';
 import picturesTpl from './templates/picture-card.hbs';
 import LoadMoreBtn from './js/load-more.js';
 import * as basicLightbox from 'basiclightbox';
-import { error } from '@pnotify/core';
+import { error, Stack } from '@pnotify/core';
 import '@pnotify/core/dist/BrightTheme.css';
+import '@pnotify/core/dist/PNotify.css';
 import './css/main.css';
 
 
@@ -61,8 +62,6 @@ async function fetchPictures() {
             animation: 'fade',
             hide: true,
             delay: 2000,
-            closer: true,
-            sticker: false
             })
         } else {
             appendPicturesMarkup(response);
@@ -77,8 +76,6 @@ async function fetchPictures() {
             animation: 'fade',
             hide: true,
             delay: 2000,
-            closer: true,
-            sticker: false
             }
 
         )
