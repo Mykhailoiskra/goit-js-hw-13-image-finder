@@ -47,11 +47,14 @@ function onSearch(event) {
     
 }
 
-function fetchPictures() {
+async function fetchPictures() {
     loadMoreBtn.disable();
     scrollPoint = document.body.clientHeight;
-    pixabayApiService.fetchPictures().then(pictures => {
-        if (pictures.length === 0) {
+    
+    try {
+        const response = await pixabayApiService.fetchPictures();
+    
+    if (response.length === 0) {
             loadMoreBtn.hide();
             return error({title: 'Oh, no!',
             text: 'No results, please specify your query',
@@ -62,14 +65,26 @@ function fetchPictures() {
             sticker: false
             })
         } else {
-            appendPicturesMarkup(pictures);
+            appendPicturesMarkup(response);
             loadMoreBtn.enable();
             window.scrollTo({
-                top: scrollPoint, left: 0,
+            top: scrollPoint, left: 0,
             behavior: 'smooth'})
-           
         }
-    })
+    } catch (err) {
+        return error({title: 'Sorry',
+            text: 'Service is temporarily not awailable',
+            animation: 'fade',
+            hide: true,
+            delay: 2000,
+            closer: true,
+            sticker: false
+            }
+
+        )
+        }
+    
+    
     
 }
 
