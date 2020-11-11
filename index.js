@@ -16,7 +16,7 @@ const loadMoreBtn = new LoadMoreBtn({
   selector: '[data-action="load-more"]',
   hidden: true,
 });
-
+let scrollPoint = 0;
 
 refs.searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', fetchPictures);
@@ -44,12 +44,13 @@ function onSearch(event) {
     clearGalleryContainer();
     fetchPictures();
     loadMoreBtn.show();
+    
 }
 
 function fetchPictures() {
     loadMoreBtn.disable();
+    scrollPoint = document.body.clientHeight;
     pixabayApiService.fetchPictures().then(pictures => {
-        console.log(pictures);
         if (pictures.length === 0) {
             loadMoreBtn.hide();
             return error({title: 'Oh, no!',
@@ -62,11 +63,14 @@ function fetchPictures() {
             })
         } else {
             appendPicturesMarkup(pictures);
-            
+            loadMoreBtn.enable();
+            window.scrollTo({
+                top: scrollPoint, left: 0,
+            behavior: 'smooth'})
+           
         }
-        
     })
-    loadMoreBtn.enable();
+    
 }
 
 function appendPicturesMarkup(pictures) {
@@ -80,10 +84,10 @@ function clearGalleryContainer() {
 function openModal(event) {
     if (event.target.nodeName !== 'IMG') {
         return
-    };
-    console.log("click")
+    }
     event.preventDefault();
     basicLightbox.create(`
 		<img width="1400" height="900" src=${event.target.dataset.source}>
 	`).show();
 }
+
